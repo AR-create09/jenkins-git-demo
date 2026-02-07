@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Run Script') {
+            steps {
+                sh '''
+                ls -la
+                chmod +x app.sh
+                ./app.sh
+                '''
+            }
+        }
+    }
+}
