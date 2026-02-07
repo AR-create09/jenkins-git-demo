@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Hello from Git + Jenkins"
+echo "Hello, Good Morning from Git + Jenkins"
