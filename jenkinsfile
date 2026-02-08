@@ -2,14 +2,45 @@ pipeline {
     agent any
 
     stages {
-        stage('Run Script') {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'chmod +x app.sh'
+                sh './app.sh'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'tar -czf app.tar.gz app.sh'
+            }
+        }
+
+        stage('Deploy Locally') {
             steps {
                 sh '''
-                ls -la
+                cp app.tar.gz /home/ubuntu/deploy/
+                cd /home/ubuntu/deploy
+                tar -xzf app.tar.gz
                 chmod +x app.sh
                 ./app.sh
                 '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Local Deployment Successful 🚀"
+        }
+        failure {
+            echo "Deployment Failed ❌"
         }
     }
 }
